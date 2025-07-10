@@ -1,0 +1,6 @@
+services:
+  web:
+    image: skyerededucation.azurecr.io/lugx-gaming:latest
+    container_name: lugx-gaming
+    ports:
+      - "8080:80"

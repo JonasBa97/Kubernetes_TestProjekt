@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: lugx-dev-service
+spec:
+  selector:
+    app: lugx-gaming-dev
+  type: NodePort
+  ports:
+    - name: http
+      port: 8080
+      targetPort: lugxdevport
+      nodePort: 30010

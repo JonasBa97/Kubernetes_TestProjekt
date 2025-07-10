@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lugx-dev-deployment
+  namespace: kurs2-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lugx-gaming-dev
+  template:
+    metadata:
+      labels:
+        app: lugx-gaming-dev
+    spec:
+      containers:
+        - name: lugx-gaming-dev
+          image: skyerededucation.azurecr.io/lugx-gaming:latest
+          ports:
+            - containerPort: 80
+              name: lugxdevport
