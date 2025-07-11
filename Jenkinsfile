@@ -37,7 +37,7 @@ pipeline {
           withEnv(["KUBECONFIG=$KUBECONFIG"]) {
             sh '''
               kubectl config use-context kurs2-dev@k3s
-              kubectl set image deployment/homepage homepage=${ACR_NAME}/${IMAGE_NAME}:${IMAGE_TAG}
+              kubectl rollout restart deployment lugx-dev-deployment
               kubectl apply -f deploy-dev.yaml
               kubectl apply -f service-dev.yaml
             '''

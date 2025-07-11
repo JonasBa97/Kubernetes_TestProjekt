@@ -16,6 +16,7 @@ spec:
       containers:
         - name: lugx-gaming-dev
           image: skyerededucation.azurecr.io/lugx-gaming:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
               name: lugxdevport
