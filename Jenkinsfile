@@ -35,7 +35,7 @@ pipeline {
       steps {
         withCredentials([file(credentialsId: env.KUBE_CONFIG_CREDENTIALS_ID, variable: 'KUBECONFIG')]) {
           sh '''
-            kubectl config --kubeconfig=$KUBECONFIG use-context kurs2-dev@k3s
+            kubectl --kubeconfig=$KUBECONFIG config use-context kurs2-dev@k3s
             kubectl --kubeconfig=$KUBECONFIG set image deployment/homepage homepage=${ACR_NAME}/${IMAGE_NAME}:${IMAGE_TAG}
             kubectl --kubeconfig=$KUBECONFIG -f apply deploy-dev.yaml
             kubectl --kubeconfig=$KUBECONFIG -f apply service-dev.yaml
@@ -68,7 +68,7 @@ pipeline {
         input message: 'Deployment auf PROD freigeben?'
         withCredentials([file(credentialsId: env.KUBE_CONFIG_CREDENTIALS_ID, variable: 'KUBECONFIG')]) {
           sh '''
-            kubectl config --kubeconfig=$KUBECONFIG use-context kurs2-prod@k3s
+            kubectl --kubeconfig=$KUBECONFIG config use-context kurs2-prod@k3s
             kubectl --kubeconfig=$KUBECONFIG set image deployment/homepage homepage=${ACR_NAME}/${IMAGE_NAME}:${IMAGE_TAG}
             kubectl --kubeconfig=$KUBECONFIG -f apply deploy-prod.yaml
             kubectl --kubeconfig=$KUBECONFIG -f apply service-prod.yaml
