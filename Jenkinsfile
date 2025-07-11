@@ -35,7 +35,7 @@ pipeline {
       steps {
         withCredentials([file(credentialsId: env.KUBE_CONFIG_CREDENTIALS_ID, variable: 'KUBECONFIG')]) {
           withEnv(["KUBECONFIG=$KUBECONFIG"]) {
-            sh '''
+            sh """
               kubectl config use-context kurs2-dev@k3s
               if kubectl get deployments lugx-dev-deployment > /dev/null 2>&1; then
                 kubectl rollout restart deployment lugx-dev-deployment
@@ -43,7 +43,7 @@ pipeline {
                 kubectl apply -f deploy-dev.yaml
                 kubectl apply -f service-dev.yaml
               fi
-            '''
+            """
           }
         }
       }
@@ -52,7 +52,7 @@ pipeline {
     stage('Test on kurs2-dev') {
       steps {
         echo 'Warte auf Verfügbarkeit der Dev-Seite...'
-        sh '''
+        sh """
           for i in {1..3}; do
             if curl -s --fail ${DEV_URL}; then
               echo "Dev-Deployment erfolgreich erreichbar."
@@ -64,7 +64,7 @@ pipeline {
           done
           echo "Dev-Deployment nicht erreichbar!"
           exit 1
-        '''
+        """
       }
     }
 
@@ -72,7 +72,7 @@ pipeline {
       steps {
         withCredentials([file(credentialsId: env.KUBE_CONFIG_CREDENTIALS_ID, variable: 'KUBECONFIG')]) {
           withEnv(["KUBECONFIG=$KUBECONFIG"]) {
-            sh '''
+            sh """
               kubectl config use-context kurs2-prod@k3s
               kubectl config get-contexts
               if kubectl get deployments lugx-prod-deployment > /dev/null 2>&1; then
@@ -81,7 +81,7 @@ pipeline {
                 kubectl apply -f deploy-prod.yaml
                 kubectl apply -f service-prod.yaml
               fi
-            '''
+            """
           }
         }
       }
@@ -90,7 +90,7 @@ pipeline {
     stage('Test on kurs2-prod') {
       steps {
         echo 'Warte auf Verfügbarkeit der Prod-Seite...'
-        sh '''
+        sh """
           for i in {1..3}; do
             if curl -s --fail ${PROD_URL}; then
               echo "Prod-Deployment erfolgreich erreichbar."
@@ -102,7 +102,7 @@ pipeline {
           done
           echo "Prod-Deployment nicht erreichbar!"
           exit 1
-        '''
+        """
       }
     }
   }
