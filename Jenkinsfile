@@ -70,8 +70,8 @@ pipeline {
 
     stage('Deploy to kurs2-prod') {
       steps {
-        withCredentials([file(credentialsId: env.KUBE_CONFIG_CREDENTIALS_ID, variable: 'KUBECONFIG')]) {
-          withEnv(["KUBECONFIG=$KUBECONFIG"]) {
+        withCredentials([file(credentialsId: env.KUBE_CONFIG_CREDENTIALS_ID, variable: 'KUBECONFIG2')]) {
+          withEnv(["KUBECONFIG=$KUBECONFIG2"]) {
             sh '''
               kubectl config use-context kurs2-prod@k3s
               if kubectl get deployments lugx-prod-deployment > /dev/null 2>&1; then

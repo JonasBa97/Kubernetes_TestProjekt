@@ -46,4 +46,5 @@ Config mergen --> jeweils alle 3 Schritte einmal mit dev und prod durchlaufen
 - GitHub-Hook-Trigger einrichten, damit die Pipeline automatisch durchlaufen wird, wenn in das Repo gepusht wird
 
 ## 6. Kubernetes-Deployment
-
+Dev: IP:30010
+Prod: IP:30011
