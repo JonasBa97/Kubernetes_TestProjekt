@@ -70,10 +70,11 @@ pipeline {
 
     stage('Deploy to kurs2-prod') {
       steps {
-        withCredentials([file(credentialsId: env.KUBE_CONFIG_CREDENTIALS_ID, variable: 'KUBECONFIG2')]) {
-          withEnv(["KUBECONFIG=$KUBECONFIG2"]) {
+        withCredentials([file(credentialsId: env.KUBE_CONFIG_CREDENTIALS_ID, variable: 'KUBECONFIG')]) {
+          withEnv(["KUBECONFIG=$KUBECONFIG"]) {
             sh '''
               kubectl config use-context kurs2-prod@k3s
+              kubectl config get-contexts
               if kubectl get deployments lugx-prod-deployment > /dev/null 2>&1; then
                 kubectl rollout restart deployment lugx-prod-deployment
               else 
