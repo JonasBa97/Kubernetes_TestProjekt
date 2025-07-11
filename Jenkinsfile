@@ -37,9 +37,12 @@ pipeline {
           withEnv(["KUBECONFIG=$KUBECONFIG"]) {
             sh '''
               kubectl config use-context kurs2-dev@k3s
-              kubectl rollout restart deployment lugx-dev-deployment
-              kubectl apply -f deploy-dev.yaml
-              kubectl apply -f service-dev.yaml
+              if kubectl get deployments lugx-dev-deployment > /dev/null 2>&1; then
+                kubectl rollout restart deployment lugx-dev-deployment
+              else 
+                kubectl apply -f deploy-dev.yaml
+                kubectl apply -f service-dev.yaml
+              fi
             '''
           }
         }
