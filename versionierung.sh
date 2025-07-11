@@ -15,10 +15,10 @@ else
   major=$(echo "$latest_tag" | cut -d. -f1)
   minor=$(echo "$latest_tag" | cut -d. -f2)
   revision=$(echo "$latest_tag" | cut -d. -f3)
-  echo "latest_tag: $latest_tag"
 
   # Erhöhe die Nebenversion um 1
   new_minor=$((minor + 1))
+  echo "new version: $new_version"
   export new_version="$major.$new_minor.$revision"
 fi
 
