@@ -16,7 +16,7 @@ im Arbeitsverzeichnis folgende Schritte ausführen:
 ## 2. Image auf Azure Container Registry pushen
 
 - `az login` --> bei Azure anmelden
-- `az acr login` --name skyerededucation --> bei ACR anmelden
+- `az acr login --name skyerededucation` --> bei ACR anmelden
 - info: `docker tag lugx-gaming:latest skyerededucation.azurecr.io/lugx-gaming:latest` --> Image taggen für ACR, nur nötig wenn vorher nicht getaggt
 - `docker push -a skyerededucation.azurecr.io/lugx-gaming` --> Image auf ACR pushen
 - `az acr repository list -n skyerededucation` --> Images auf ACR anzeigen
@@ -39,6 +39,11 @@ Config mergen --> jeweils alle 3 Schritte einmal mit dev und prod durchlaufen
 - targetPorts zugehörig benennen und Port vergeben (30010-dev, 30011-prod)
 
 ## 5. Jenkins-Pipline bauen
+- neue Jenkins-Pipline anlegen --> Kubernetes - TestProjekt
+- `cp ~/.kube/config ./kubeconfig-jenkins` --> kubeconfig exportieren, um sie dann als SecretFile für Jenkins zu verwenden
+- kubeconfig-jenkins der .gitignore hinzufügern, um den Upload in ds Repo zu verhindern
+- Jenkinsfile anlegen und bearbeiten
+- GitHub-Hook-Trigger einrichten, damit die Pipeline automatisch durchlaufen wird, wenn in das Repo gepusht wird
 
 ## 6. Kubernetes-Deployment
 
