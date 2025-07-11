@@ -21,5 +21,6 @@ else
 
   # Erhöhe die Nebenversion um 1
   new_minor=$((minor + 1))
-  export new_version="$major.$new_minor.$revision"
+  # export new_version="$major.$new_minor.$revision"
+  echo "$new_version"
 fi

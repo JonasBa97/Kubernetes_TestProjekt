@@ -20,12 +20,13 @@ pipeline {
     stage('Docker Build & Push') {
       steps {
         script {
-          sh '''
-            bash versionierung.sh
-            echo "${env.new_version}"
-            docker build -t skyerededucation.azurecr.io/lugx-gaming:${env.new_version} -t skyerededucation.azurecr.io/lugx-gaming:latest .
+          def newVersion = sh(script: 'bash versionierung.sh', returnStdout: true).trim()
+          env.NEW_VERSION = newVersion
+          sh """
+            echo "Neue Version: ${env.NEW_VERSION}"
+            docker build -t skyerededucation.azurecr.io/lugx-gaming:${env.NEW_VERSION} -t skyerededucation.azurecr.io/lugx-gaming:latest .
             docker push -a skyerededucation.azurecr.io/lugx-gaming
-          '''
+          """
         }
       }
     }  
