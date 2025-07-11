@@ -15,6 +15,9 @@ else
   major=$(echo "$latest_tag" | cut -d. -f1)
   minor=$(echo "$latest_tag" | cut -d. -f2)
   revision=$(echo "$latest_tag" | cut -d. -f3)
+  if [ -z "$revision" ]; then
+    revision=0
+  fi
 
   # Erhöhe die Nebenversion um 1
   new_minor=$((minor + 1))
