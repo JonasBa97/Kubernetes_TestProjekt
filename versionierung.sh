@@ -8,7 +8,7 @@ az acr login --name skyerededucation >> /dev/null
 latest_tag=$(az acr repository show-tags --name skyerededucation --repository lugx-gaming --output tsv | grep -v latest | sort -V | tail -n 1)
 echo "$latest_tag"
 
-if [[ -z "$latest_tag" ]]; then
+if [ -z "$latest_tag" ]; then
   echo "Keine vorhandene Version gefunden. Starte mit 0.1.0"
   export new_version="0.1.0"
 else
