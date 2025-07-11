@@ -12,10 +12,10 @@ if [ -z "$latest_tag" ]; then
   export new_version="0.1.0"
 else
   # Extrahiere Haupt- und Nebenversion
-  echo "latest_tag: $latest_tag"
   major=$(echo "$latest_tag" | cut -d. -f1)
   minor=$(echo "$latest_tag" | cut -d. -f2)
   revision=$(echo "$latest_tag" | cut -d. -f3)
+  echo "latest_tag: $latest_tag"
 
   # Erhöhe die Nebenversion um 1
   new_minor=$((minor + 1))
