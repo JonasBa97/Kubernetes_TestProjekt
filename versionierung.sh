@@ -18,6 +18,6 @@ else
   revision=$(echo "$latest_tag" | cut -d. -f3)
 
   # Erhöhe die Nebenversion um 1
-  new_minor=$((minor + 1))
+  # new_minor=$((minor + 1))
   export new_version="$major.$new_minor.$revision"
 fi
