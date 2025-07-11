@@ -70,15 +70,19 @@ pipeline {
 
     stage('Deploy to kurs2-prod') {
       steps {
-        input message: 'Deployment auf PROD freigeben?'
         withCredentials([file(credentialsId: env.KUBE_CONFIG_CREDENTIALS_ID, variable: 'KUBECONFIG')]) {
-          sh '''
-            kubectl --kubeconfig=$KUBECONFIG config use-context kurs2-prod@k3s
-            kubectl --kubeconfig=$KUBECONFIG set image deployment/homepage homepage=${ACR_NAME}/${IMAGE_NAME}:${IMAGE_TAG}
-            kubectl --kubeconfig=$KUBECONFIG -f apply deploy-prod.yaml
-            kubectl --kubeconfig=$KUBECONFIG -f apply service-prod.yaml
-          '''
-        }
+          withEnv(["KUBECONFIG=$KUBECONFIG"]) {
+            sh '''
+              kubectl config use-context kurs2-prod@k3s
+              if kubectl get deployments lugx-prod-deployment > /dev/null 2>&1; then
+                kubectl rollout restart deployment lugx-prod-deployment
+              else 
+                kubectl apply -f deploy-prod.yaml
+                kubectl apply -f service-prod.yaml
+              fi
+            '''
+          }
+        
       }
     }
 
