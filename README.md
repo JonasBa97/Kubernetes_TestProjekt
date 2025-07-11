@@ -45,6 +45,19 @@ Config mergen --> jeweils alle 3 Schritte einmal mit dev und prod durchlaufen
 - Jenkinsfile anlegen und bearbeiten
 - GitHub-Hook-Trigger einrichten, damit die Pipeline automatisch durchlaufen wird, wenn in das Repo gepusht wird
 
+Jenkinsfile beinhaltet:
+- ACR-NAme, IMAGE-Name und IMAGE-Tag
+- Kubeconfig --> wird als Secretfile in Jenkins geladen
+- URL für Dev und Prod
+- `stage` Checkout
+- `stage` Docker Build & Push to ACR --> beinhaltet automatisiert Versionierung des Images auf der ACR, Shell-Skript liest neuesten Versions-Tag aus und erhöht den Wert der Minor-Version um 1
+- `stage` Deployment to kurs2-dev --> nutz Credentials aus Jenkins-Secretfile, startet das Deployment neu, wenn bereits vorhanden
+- Wenn Deployment nicht vorhanden, wird deploy-dev.yaml und service-dev.yaml angewendet
+- `stage` Anschließend Test auf Erreichbarkeit mit `curl` --> schlägt Anfrage fehl, wird dies bis zu 3x versucht im Abstand von 10s
+- `stage` Deployment to kurs2-prod und `stage` Test on kurs2-prod werden nach erfolgreichem Test auf Dev ausgeführt und sind identisch zum Vorgehen bei Dev
+- `post` always clean workspace
+
 ## 6. Kubernetes-Deployment
+bei erfolgreichem Durchlauf sind Dev und Prod unter den angegebenen Ports der IP erreichbar
 Dev: IP:30010
 Prod: IP:30011
