@@ -21,7 +21,7 @@ pipeline {
       steps {
         script {
           sh '''
-            sh versionierung.sh
+            bash versionierung.sh
             echo ${env.new_version}
             docker build -t skyerededucation.azurecr.io/lugx-gaming:${env.new_version} -t skyerededucation.azurecr.io/lugx-gaming:latest .
             docker push -a skyerededucation.azurecr.io/lugx-gaming
