@@ -34,12 +34,14 @@ pipeline {
     stage('Deploy to kurs2-dev') {
       steps {
         withCredentials([file(credentialsId: env.KUBE_CONFIG_CREDENTIALS_ID, variable: 'KUBECONFIG')]) {
-          sh '''
-            kubectl --kubeconfig=$KUBECONFIG config use-context kurs2-dev@k3s
-            kubectl --kubeconfig=$KUBECONFIG set image deployment/homepage homepage=${ACR_NAME}/${IMAGE_NAME}:${IMAGE_TAG}
-            kubectl --kubeconfig=$KUBECONFIG -f apply deploy-dev.yaml
-            kubectl --kubeconfig=$KUBECONFIG -f apply service-dev.yaml
-          '''
+          withEnv(["KUBECONFIG=$KUBECONFIG"]) {
+            sh '''
+              kubectl config use-context kurs2-dev@k3s
+              kubectl set image deployment/homepage homepage=${ACR_NAME}/${IMAGE_NAME}:${IMAGE_TAG}
+              kubectl apply -f deploy-dev.yaml
+              kubectl apply -f service-dev.yaml
+            '''
+          }
         }
       }
     }
