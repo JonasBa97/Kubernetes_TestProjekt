@@ -20,13 +20,15 @@ pipeline {
     stage('Docker Build & Push') {
       steps {
         script {
-          docker.withRegistry("https://${env.ACR_NAME}", 'acr-service-connection') {
-            def image = docker.build("${env.ACR_NAME}/${env.IMAGE_NAME}:${env.IMAGE_TAG}")
-            image.push()
-          }
+          sh '''
+            sh versionierung.sh
+            echo ${env.new_version}
+            docker build -t skyerededucation.azurecr.io/lugx-gaming:${env.new_version} -t skyerededucation.azurecr.io/lugx-gaming:latest .
+            docker push -a skyerededucation.azurecr.io/lugx-gaming
+          '''
         }
       }
-    }
+    }  
 
     stage('Deploy to kurs2-dev') {
       steps {
